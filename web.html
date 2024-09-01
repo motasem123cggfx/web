@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Class Rome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #6b2dce44;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        header {
+            background-color: #3c3ab1;
+            color: #333;
+            padding: 10px 0;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 10;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+        }
+
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-left img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-left: 10px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .profile-info-popup {
+            display: none;
+            position: absolute;
+            top: 60px;
+            /* Adjust based on image position */
+            right: 70px;
+            /* Adjust based on image position */
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            z-index: 15;
+            width: 200px;
+            text-align: left;
+        }
+
+        .profile-info-popup h3 {
+            margin-top: 0;
+        }
+
+        .profile-info-popup button {
+            background-color: #00ff62;
+            border: none;
+            color: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .profile-info-popup button:hover {
+            background-color: #f17a0b;
+        }
+
+        nav button,
+        .get-started-btn {
+            background-color: #ff7300;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        nav button:hover,
+        .get-started-btn:hover {
+            background-color: #0056b3;
+        }
+
+        #main-content {
+            padding: 20px;
+            margin-top: 60px;
+            flex: 1;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page h1,
+        .page h2 {
+            color: #11a736;
+            margin-top: 40px;
+        }
+
+        .page ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .page ul li {
+            margin: 10px 0;
+        }
+
+        .page ul li a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+
+        .page ul li a:hover {
+            text-decoration: underline;
+        }
+
+        #right-image {
+            position: fixed;
+            top: 120px;
+            /* Adjust vertical position */
+            right: 10px;
+            /* Adjust horizontal position */
+            width: 150px;
+            /* Adjust width as needed */
+            height: 150px;
+            /* Adjust height as needed */
+            border-radius: 50%;
+            /* Make the image circular */
+            object-fit: cover;
+            /* Ensure the image covers the circle */
+            z-index: 5;
+        }
+
+        footer {
+            background-color: #641653;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .course-category {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .course-category h3 {
+            margin-top: 0;
+            color: #007BFF;
+        }
+
+        .course-category ul {
+            padding: 0;
+            list-style-type: none;
+            margin: 0;
+        }
+
+        .course-category ul li {
+            margin: 10px 0;
+        }
+
+        .course-category ul li a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+
+        .course-category ul li a:hover {
+            text-decoration: underline;
+        }
+
+        .registration-form {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .registration-form h2 {
+            color: #007BFF;
+        }
+
+        .registration-form .form-group {
+            margin-bottom: 15px;
+        }
+
+        .registration-form .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .registration-form .form-group input[type="text"],
+        .registration-form .form-group input[type="email"],
+        .registration-form .form-group input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .registration-form .form-group input[type="file"] {
+            display: none;
+        }
+
+        .registration-form .form-group .custom-file-upload {
+            display: inline-block;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: #fff;
+            border-radius: 4px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .registration-form .form-group .custom-file-upload:hover {
+            background-color: #0056b3;
+        }
+
+        .registration-form .form-group button,
+        .logout-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            border: none;
+            color: #fff;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .registration-form .form-group button:hover,
+        .logout-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .registration-form .message {
+            margin-top: 15px;
+        }
+
+        .profile-picture {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            display: block;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-left">
+            <img id="profile-img" class="profile-picture" alt="Profile Picture">
+            <div id="profile-info" class="profile-info-popup">
+                <h3>Profile Information</h3>
+                <p><strong>Username:</strong> <span id="profile-username"></span></p>
+                <p><strong>Email:</strong> <span id="profile-email"></span></p>
+                <button onclick="hideProfileInfo()">Close</button>
+            </div>
+            <nav>
+                <button onclick="showPage('home')">Home</button>
+                <button onclick="showPage('classes')">Classes</button>
+                <button onclick="showPage('رياضيات')">رياضيات</button>
+                <button onclick="showPage('كورسات')">كورسات</button>
+                <button onclick="showPage('registration')">Register</button>
+                <button onclick="showPage('comment')">comment</button>
+                <button onclick="showPage('اشترك')">اشترك</button>
+                <button onclick="showPage('ذاكر معانا')">ذاكر معانا</button>
+
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <div id="home" class="page">
+            <h1>Welcome to the Math Learning Platform</h1>
+            <p>Explore our educational resources and improve your math skills.</p>
+            <p>We offer a lot of courses and math lessons through classes you will find the lesson's links.</p>
+        </div>
+
+        <div id="content" class="page">
+            <h2>Contact Information</h2>
+            <p>Phone: 01092201077</p>
+            <p>Address: Aga, Dakahlia, Egypt</p>
+        </div>
+        <div id="comment" class="page">
+            <h2>Leave Your Comment</h2>
+            <textarea id="comment-text" rows="4" cols="50" placeholder="Write your comment here..."></textarea>
+            <button id="share-btn">Share</button>
+            <div id="comments-list">
+                <!-- Comments will be appended here -->
+            </div>
+        </div>
+        <div id="اشترك" class="page">
+            <h2>اشترك ب 400 جنية شهريا </h2>
+            <a href="https://web.vodafone.com.eg/ar/vodafone-cash" class="get-started-btn">ابدأ الآن</a>
+            <h3> ازاي تحول فلوس بڤودافون كاش لأي حد في مصر حتى لو مش مشترك في الخدمة:
+                كلم #7*9*،إختار خدمة تحويل الأموال، ادخل رقم الهاتف المراد التحويل له، ادخل القيمة المراد تحويلها من 5
+                إلى 60,000 جنيه، ادخل الرقم السري</h3>
+
+            <h4>mobile phone : 01092201077</h4>
+        </div>
+        <div id="ذاكر معانا" class="page">
+            <h2>study with us</h2>
+            <canvas id="drawingCanvas"></canvas>
+            هل اتممت الواجب المنزلي <input type="checkbox"><br>
+            هل ذاكرت دروسك:<input type="checkbox">
+        </div>
+
+
+        <div id="كورسات" class="page">
+            <h2>Available courses</h2>
+            <div class="courses-grid">
+                <div class="course-category">
+                    <h3>liner algebra</h3>
+                    <ul>
+                        <li><a href="https://example.com/prep3-lesson1">Lesson 1</a></li>
+                        <li><a href="https://example.com/prep3-lesson2">Lesson 2</a></li>
+                        <li><a href="https://example.com/prep3-lesson3">Lesson 3</a></li>
+                    </ul>
+                </div>
+                <div class="course-category">
+                    <h3>Algebra</h3>
+                    <ul>
+                        <li><a href="https://example.com/prep2-lesson1">Lesson 1</a></li>
+                        <li><a href="https://example.com/prep2-lesson2">Lesson 2</a></li>
+                        <li><a href="https://example.com/prep2-lesson3">Lesson 3</a></li>
+                    </ul>
+                </div>
+                <div class="course-category">
+                    <h3>geometry</h3>
+                    <ul>
+                        <li><a href="https://example.com/prep1-lesson1">Lesson 1</a></li>
+                        <li><a href="https://example.com/prep1-lesson2">Lesson 2</a></li>
+                        <li><a href="https://example.com/prep1-lesson3">Lesson 3</a></li>
+                    </ul>
+                </div>
+                <div class="course-category">
+                    <h3>Graphical represintation</h3>
+                    <ul>
+                        <li><a href="https://example.com/grade6-lesson1">Lesson 1</a></li>
+                        <li><a href="https://example.com/grade6-lesson2">Lesson 2</a></li>
+                        <li><a href="https://example.com/grade6-lesson3">Lesson 3</a></li>
+                    </ul>
+                </div>
+                <div class="course-category">
+                    <h3>Trinomegal</h3>
+                    <ul>
+                        <li><a href="https://example.com/grade5-lesson1">Lesson 1</a></li>
+                        <li><a href="https://example.com/grade5-lesson2">Lesson 2</a></li>
+                        <li><a href="https://example.com/grade5-lesson3">Lesson 3</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        </div>
+
+        <div id="about" class="page">
+            <h2>About Us</h2>
+            <p>We are dedicated to providing high-quality math education and resources.</p>
+        </div>
+
+        <div id="help" class="page">
+            <h2>Help</h2>
+            <p>If you need assistance, please contact our support team.</p>
+        </div>
+
+        <div id="classes" class="page">
+            <h2>Available lessons</h2>
+            <div class="courses-grid">
+                <div class="course-category">
+                    <h3>Prep 3</h3>
+                    <ul>
+                        <li><a href="https://example.com/prep3-lesson1">Lesson 1</a></li>
+                        <li><a href="https://example.com/prep3-lesson2">Lesson 2</a></li>
+                        <li><a href="https://example.com/prep3-lesson3">Lesson 3</a></li>
+                    </ul>
+                </div>
+                <div class="course-category">
+                    <h3>Prep 2</h3>
+                    <ul>
+                        <li><a href="https://example.com/prep2-lesson1">Lesson 1</a></li>
+                        <li><a href="https://example.com/prep2-lesson2">Lesson 2</a></li>
+                        <li><a href="https://example.com/prep2-lesson3">Lesson 3</a></li>
+                    </ul>
+                </div>
+                <div class="course-category">
+                    <h3>Prep 1</h3>
+                    <ul>
+                        <li><a href="https://example.com/prep1-lesson1">Lesson 1</a></li>
+                        <li><a href="https://example.com/prep1-lesson2">Lesson 2</a></li>
+                        <li><a href="https://example.com/prep1-lesson3">Lesson 3</a></li>
+                    </ul>
+                </div>
+                <div class="course-category">
+                    <h3>Grade 6</h3>
+                    <ul>
+                        <li><a href="https://example.com/grade6-lesson1">Lesson 1</a></li>
+                        <li><a href="https://example.com/grade6-lesson2">Lesson 2</a></li>
+                        <li><a href="https://example.com/grade6-lesson3">Lesson 3</a></li>
+                    </ul>
+                </div>
+                <div class="course-category">
+                    <h3>Grade 5</h3>
+                    <ul>
+                        <li><a href="https://www.youtube.com/watch?v=Xx0U17Mk58w"></a></li>
+                        <li><a href="https://example.com/grade5-lesson2">Lesson 2</a></li>
+                        <li><a href="https://example.com/grade5-lesson3">Lesson 3</a></li>
+                    </ul>
+                </div>
+                <div class="course-category">
+                    <h3>Grade 4</h3>
+                    <ul>
+                        <li><a href="https://example.com/grade4-lesson1">Lesson 1</a></li>
+                        <li><a href="https://example.com/grade4-lesson2">Lesson 2</a></li>
+                        <li><a href="https://example.com/grade4-lesson3">Lesson 3</a></li>
+                    </ul>
+                </div>
+                <div class="course-category">
+                    <h3>Grade 3</h3>
+                    <ul>
+                        <li><a href="https://example.com/grade3-lesson1">Lesson 1</a></li>
+                        <li><a href="https://example.com/grade3-lesson2">Lesson 2</a></li>
+                        <li><a href="https://example.com/grade3-lesson3">Lesson 3</a></li>
+                    </ul>
+                </div>
+                <div class="course-category">
+                    <h3>Grade 2</h3>
+                    <ul>
+                        <li><a href="https://example.com/grade2-lesson1">Lesson 1</a></li>
+                        <li><a href="https://example.com/grade2-lesson2">Lesson 2</a></li>
+                        <li><a href="https://example.com/grade2-lesson3">Lesson 3</a></li>
+                    </ul>
+                </div>
+                <div class="course-category">
+                    <h3>Grade 1</h3>
+                    <ul>
+                        <li><a href="https://example.com/grade1-lesson1">Lesson 1</a></li>
+                        <li><a href="https://example.com/grade1-lesson2">Lesson 2</a></li>
+                        <li><a href="https://example.com/grade1-lesson3">Lesson 3</a></li>
+                    </ul>
+                </div>
+                <div class="course-category">
+                    <h3>KG 2</h3>
+                    <ul>
+                        <li><a href="https://example.com/grade1-lesson1">Lesson 1</a></li>
+                        <li><a href="https://example.com/grade1-lesson2">Lesson 2</a></li>
+                        <li><a href="https://example.com/grade1-lesson3">Lesson 3</a></li>
+                    </ul>
+                </div>
+                <div class="course-category">
+                    <h3>KG 1</h3>
+                    <ul>
+                        <li><a href="https://example.com/grade1-lesson1">Lesson 1</a></li>
+                        <li><a href="https://example.com/grade1-lesson2">Lesson 2</a></li>
+                        <li><a href="https://example.com/grade1-lesson3">Lesson 3</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="رياضيات" class="page">
+            <h2>Available lessons</h2>
+            <div class="courses-grid">
+                <div class="course-category">
+                    <h3>الثالث الاعدادي</h3>
+                    <ul>
+                        <li><a href="https://example.com/prep3-lesson1">Lesson 1</a></li>
+                        <li><a href="https://example.com/prep3-lesson2">Lesson 2</a></li>
+                        <li><a href="https://example.com/prep3-lesson3">Lesson 3</a></li>
+                    </ul>
+                </div>
+                <div class="course-category">
+                    <h3>الثاني الاعدادي</h3>
+                    <ul>
+                        <li><a href="https://example.com/prep2-lesson1">Lesson 1</a></li>
+                        <li><a href="https://example.com/prep2-lesson2">Lesson 2</a></li>
+                        <li><a href="https://example.com/prep2-lesson3">Lesson 3</a></li>
+                    </ul>
+                </div>
+                <div class="course-category">
+                    <h3>الاول الاعدادي</h3>
+                    <ul>
+                        <li><a href="https://example.com/prep1-lesson1">Lesson 1</a></li>
+                        <li><a href="https://example.com/prep1-lesson2">Lesson 2</a></li>
+                        <li><a href="https://example.com/prep1-lesson3">Lesson 3</a></li>
+                    </ul>
+                </div>
+                <div class="course-category">
+                    <h3>السادس الابتدائي</h3>
+                    <ul>
+                        <li><a href="https://example.com/grade6-lesson1">Lesson 1</a></li>
+                        <li><a href="https://example.com/grade6-lesson2">Lesson 2</a></li>
+                        <li><a href="https://example.com/grade6-lesson3">Lesson 3</a></li>
+                    </ul>
+                </div>
+                <div class="course-category">
+                    <h3>الخامس الابتدائي</h3>
+                    <ul>
+                        <li><a href="https://www.youtube.com/watch?v=Xx0U17Mk58w"></a></li>
+                        <li><a href="https://example.com/grade5-lesson2">Lesson 2</a></li>
+                        <li><a href="https://example.com/grade5-lesson3">Lesson 3</a></li>
+                    </ul>
+                </div>
+                <div class="course-category">
+                    <h3>الرابع الابتدائي</h3>
+                    <ul>
+                        <li><a href="https://example.com/grade4-lesson1">Lesson 1</a></li>
+                        <li><a href="https://example.com/grade4-lesson2">Lesson 2</a></li>
+                        <li><a href="https://example.com/grade4-lesson3">Lesson 3</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="registration" class="page">
+            <div class="registration-form">
+                <h2>تسجيل حساب</h2>
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="username">اسم المستخدم:</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">البريد الإلكتروني:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">كلمة المرور:</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-picture" class="custom-file-upload">اختيار صورة</label>
+                        <input type="file" id="profile-picture" name="profile-picture" accept="image/*">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit">تسجيل</button>
+                    </div>
+                    <div class="message" id="registration-message"></div>
+                </form>
+                <button id="logout-btn" class="logout-btn" style="display:none;">Logout</button>
+            </div>
+        </div>
+    </main>
+
+    <img id="right-image"
+        src="https://media-hbe1-1.cdn.whatsapp.net/v/t61.24694-24/421911047_854777562772071_6897763654759999718_n.jpg?ccb=11-4&oh=01_Q5AaIEOymNICr4j8aPA53QhFVGG6nBc3RwuBe1jeLdUFctn4&oe=66E0BDC4"
+        alt="Girl Image">
+
+
+    <footer>
+        <p>© 2024 Math Learning Platform. All rights reserved.</p>
+        <button onclick="showPage('content')">Content</button>
+        <button onclick="showPage('about')">About</button>
+        <button onclick="showPage('help')">Help</button>
+        <style>
+            #main-content {
+                padding: 20px;
+                margin-top: 60px;
+                flex: 1;
+                overflow: auto;
+                display: flex;
+                flex-direction: column;
+            }
+        </style>
+
+    </footer>
+
+    <script>
+        const canvas = document.getElementById('drawingCanvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+
+        let isDrawing = false;
+
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+
+        function startDrawing(e) {
+            isDrawing = true;
+            ctx.beginPath();
+            ctx.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            ctx.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+            ctx.stroke();
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+            ctx.closePath();
+        }
+
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                page.style.display = 'none';
+            });
+            document.getElementById(pageId).style.display = 'block';
+        }
+
+        document.getElementById('register-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const profilePicture = document.getElementById('profile-picture').files[0];
+
+            if (username && email && password) {
+                const user = { username, email, password };
+
+                if (profilePicture) {
+                    user.profilePicture = URL.createObjectURL(profilePicture);
+                }
+
+                localStorage.setItem('user', JSON.stringify(user));
+
+                document.getElementById('registration-message').textContent = 'تم تسجيل الحساب بنجاح!';
+                document.getElementById('registration-message').style.color = 'green';
+                document.getElementById('register-form').reset();
+
+                if (profilePicture) {
+                    document.getElementById('profile-img').src = user.profilePicture;
+                    document.getElementById('profile-img').style.display = 'block';
+                }
+
+                document.getElementById('logout-btn').style.display = 'block';
+                document.querySelector('.header-left img').style.display = 'block';
+                document.getElementById('profile-username').textContent = username;
+                document.getElementById('profile-email').textContent = email;
+                showPage('home');
+            }
+        });
+
+        document.getElementById('logout-btn').addEventListener('click', function () {
+            localStorage.removeItem('user');
+            document.getElementById('profile-img').style.display = 'none';
+            document.getElementById('logout-btn').style.display = 'none';
+            showPage('home');
+        });
+
+        document.getElementById('profile-img').addEventListener('click', function () {
+            const popup = document.getElementById('profile-info');
+            popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+        });
+
+        function hideProfileInfo() {
+            document.getElementById('profile-info').style.display = 'none';
+        }
+
+        // Initialize
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user) {
+            document.getElementById('profile-img').src = user.profilePicture || '';
+            document.getElementById('profile-img').style.display = 'block';
+            document.getElementById('profile-username').textContent = user.username;
+            document.getElementById('profile-email').textContent = user.email;
+            document.getElementById('logout-btn').style.display = 'block';
+            showPage('home');
+        } else {
+            document.getElementById('profile-img').style.display = 'none';
+        }
+
+        // Show the home page by default
+        showPage('home');
+        // Function to format date as dd/mm/yyyy
+        function formatDate(date) {
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+
+        // Display the current date in the footer
+        document.getElementById('current-date').textContent = `Today's Date: ${formatDate(new Date())}`;
+        document.getElementById('share-btn').addEventListener('click', function () {
+            const commentText = document.getElementById('comment-text').value;
+
+            if (commentText) {
+                const commentsList = document.getElementById('comments-list');
+                const newComment = document.createElement('p');
+                newComment.textContent = commentText;
+                commentsList.appendChild(newComment);
+
+                // Clear the textarea
+                document.getElementById('comment-text').value = '';
+            }
+        });
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.style.display = page.id === pageId ? 'block' : 'none';
+            });
+        }
+
+        document.getElementById('registration-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            document.getElementById('registration-message').innerText = 'Registration successful!';
+        });
+
+        document.getElementById('share-btn').addEventListener('click', function () {
+            const commentText = document.getElementById('comment-text').value.trim();
+
+            if (commentText) {
+                const commentsList = document.getElementById('comments-list');
+                const newComment = document.createElement('div');
+                newComment.className = 'comment-item';
+                newComment.innerHTML = `<p>${commentText}</p>`;
+                commentsList.appendChild(newComment);
+                document.getElementById('comment-text').value = '';
+            } else {
+                alert('Please enter a comment.');
+            }
+        });
+
+    </script>
+
+</body>
+
+</html>
